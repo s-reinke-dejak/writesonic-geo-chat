@@ -13,7 +13,7 @@ st.sidebar.header("Settings")
 geo_url = st.sidebar.text_input("Paste GEO Analytics Endpoint URL")
 
 def fetch_geo(url):
-    headers = {"Authorization": f"Bearer {WRITESONIC_API_KEY}"}
+    headers = {"x-api-key": WRITESONIC_API_KEY}
     r = requests.get(url, headers=headers)
     if r.status_code != 200:
         st.error(f"Error {r.status_code}: {r.text}")
@@ -58,9 +58,10 @@ Data:
 
     url = "https://api.writesonic.com/v2/business/content/chatsonic?engine=premium"
     headers = {
-        "Authorization": f"Bearer {WRITESONIC_API_KEY}",
-        "Content-Type": "application/json"
-    }
+    "x-api-key": WRITESONIC_API_KEY,
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+}
 
     payload = {
         "input_text": prompt,
@@ -76,4 +77,5 @@ Data:
         answer = r.text
 
     st.session_state.messages.append({"role": "assistant", "content": answer})
+
     st.rerun()
